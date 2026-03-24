@@ -1,18 +1,92 @@
 <header>
-    <nav style="display: flex; gap: 20px; padding: 10px; background-color: #f0f0f0;">
-        <div>LOGO</div>
-        <div>Főoldal</div>
-        <div>Szolgáltatások</div>
-        <div>Kapcsolat</div>
+    <nav style="display: flex; align-items: center; gap: 20px; background-color: #f0f0f0;">
+        <% if(!user) { %>
+            <div>
+                <a href="/"><img src="/images/logo.png" alt="Logo" style="height: 60px;"></a>
+            </div>
 
-        <% if(locals.user) { %>
-            <div>Profilom</div>
+            <div>
+                <a href="/">Főoldal</a>
+            </div>
+
+            <div>
+                <a href="/contact">Kapcsolat</a>
+            </div>
+
+            <div>
+                <a href="/services">Szolgáltatások</a>
+            </div>
+
+            <div>
+                <a href="/auth/login">Időpontfoglalás</a>
+            </div>
+
+             <div>
+                <a href="/auth/login">Bejelentkezés</a>
+            </div>
+
+            <div>
+                <a href="/auth/register">Regisztráció</a>
+            </div>
+
+        <% } else { %>
+            <% if(user.role !== "admin") { %>
+                <div>
+                    <a href="/"><img src="/images/logo.png" alt="Logo" style="height: 60px;"></a>
+                </div>
+
+                <div>
+                    <a href="/">Főoldal</a>
+                </div>
+
+                <div>
+                    <a href="/contact">Kapcsolat</a>
+                </div>
+
+                <div>
+                    <a href="/services">Szolgáltatások</a>
+                </div>
+
+                <div>
+                    <a href="/appointment">Időpontfoglalás</a>
+                </div>
+
+                <div>
+                    <a href="/profile">Profilom</a>
+                </div>
+
+            <% } else { %>
+                <div>
+                    <a href="/admin"><img src="/images/logo.png" alt="Logo" style="height: 60px;"></a>
+                </div>
+
+                <div>
+                    <a href="/admin">Főoldal</a>
+                </div>
+
+                <div>
+                    <a href="/admin/contact">Kapcsolat</a>
+                </div>
+
+                <div>
+                    <a href="/admin/services">Szolgáltatások</a>
+                </div>
+
+                <div>
+                    <a href="/admin/appointment">Időpontok</a>
+                </div>
+
+                <div>
+                    <a href="/profile">Profilom</a>
+                </div>
+
+                <div>
+                    <a href="/admin/users">Felhasználók</a>
+                </div>
+            <% } %>
             <form action="/auth/logout" method="POST">
                 <button type="submit">Kijelentkezés</button>
             </form>
-        <% } else { %>
-            <div><a href="/auth/login">Bejelentkezés</a></div>
-            <div><a href="/auth/register">Regisztráció</a></div>
         <% } %>
     </nav>
 </header>

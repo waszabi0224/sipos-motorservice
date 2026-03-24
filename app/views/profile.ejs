@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Saját adataim</title> 
+</head>
+<body>
+    <%- include("partials/header.ejs") %>
+
+    <h1>Saját profilom</h1>
+
+    <ul>
+        <li><strong>Vezetéknév:</strong> <%= user.last_name %></li>
+        <li><strong>Keresztnév:</strong> <%= user.first_name %></li>
+        <li><strong>Email:</strong> <%= user.email %></li>
+        <li><strong>Szerep:</strong> <%= user.role %></li>
+        <li><strong>Telefonszám:</strong> <%= user.phone %></li>
+        <li><strong>Létrehozva:</strong> <%= new Date(user.created_at).toLocaleString() %></li>
+    </ul>
+
+    <p style="font-size: large;">Időpontok</p>
+
+    <p style="font-size: large;">Motorjaim</p>
+
+</body>
+</html>

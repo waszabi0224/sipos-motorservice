@@ -76,10 +76,17 @@ const loginUser = async (req, res) => {
 
         req.session.user = {
             id: existingUser.id,
+            first_name: existingUser.first_name,
+            last_name: existingUser.last_name,
             email: existingUser.email,
-            role: existingUser.role
+            role: existingUser.role,
+            phone: existingUser.phone,
+            created_at: existingUser.created_at
         };
-        console.log(req.session.user);
+
+        if(existingUser.role === "admin") {
+            return res.redirect("/admin");
+        }
         return res.redirect("/");
     } catch(error) {
         return res.status(500).render("login", {
@@ -98,7 +105,7 @@ const logoutUser = (req, res) => {
     });
     console.log(req.session);
     res.redirect("/");
-}
+};
 
 export {
     showRegisterPage,

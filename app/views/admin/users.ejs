@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Felhasználók</title>
+</head>
+<body>
+    <%- include("../partials/header.ejs") %>
+
+    <h1>Felhasználók</h1>
+    <p>Itt láthatod az összes felhasználót.</p>
+    <% if (!users || users.length === 0) { %>
+        <p>Nincsenek felhasználók.</p>
+    <% } else { %>
+        <table border="1" cellpadding="8">
+            <thead>
+                <tr>
+                    <th>Vezetéknév</th>
+                    <th>Keresztnév</th>
+                    <th>Email</th>
+                    <th>Szerep</th>
+                    <th>Telefon</th>
+                    <th>Létrehozva</th>
+                    <th>asd</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% users.forEach(user => { %>
+                    <tr>
+                        <td><%= user.last_name %></td>
+                        <td><%= user.first_name %></td>
+                        <td><%= user.email %></td>
+                        <td><%= user.role %></td>
+                        <td><%= user.phone %></td>
+                        <td><%= new Date(user.created_at).toLocaleString() %></td>
+                        <td><a href="/admin/users/<%= user.id %>">Részletek</a></td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    <% } %>
+</body>
+</html>

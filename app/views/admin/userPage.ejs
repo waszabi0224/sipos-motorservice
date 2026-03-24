@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Felhasználó</title>
+</head>
+<body>
+    <%- include("../partials/header.ejs") %>
+
+    <h1>Felhasználó</h1>
+    <p>Itt láthatod az összes felhasználót.</p>
+    <ul>
+        <li><strong>Vezetéknév:</strong> <%= selectedUser.last_name %></li>
+        <li><strong>Keresztnév:</strong> <%= selectedUser.first_name %></li>
+        <li><strong>Email:</strong> <%= selectedUser.email %></li>
+        <li><strong>Szerep:</strong> <%= selectedUser.role %></li>
+        <li><strong>Telefonszám:</strong> <%= selectedUser.phone %></li>
+        <li><strong>Létrehozva:</strong> <%= new Date(selectedUser.created_at).toLocaleString() %></li>
+    </ul>
+    
+    <p style="font-size: large;">Időpontok</p>
+
+    <p style="font-size: large;">Motorok</p>
+</body>
+</html>

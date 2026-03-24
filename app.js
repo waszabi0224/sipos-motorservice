@@ -1,6 +1,7 @@
 import express from "express";
 import userRoutes from "./app/routes/userRoutes.js";
-import homeRoutes from "./app/routes/homeRoutes.js";
+import publicRoutes from "./app/routes/publicRoutes.js";
+import adminRoutes from "./app/routes/adminRoutes.js";
 import path from "path";
 import { fileURLToPath } from "url";
 import session from "express-session";
@@ -13,6 +14,7 @@ app.use(express.json());
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "app", "views"));
+app.use(express.static(path.join(__dirname, "app", "public")));
 
 //middlewares
 app.use(express.urlencoded({ extended: true }));
@@ -28,6 +30,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/auth", userRoutes);
-app.use("/", homeRoutes);
+app.use("/", publicRoutes);
+app.use("/admin", adminRoutes);
 
 export default app;

@@ -12,7 +12,21 @@ async function createUser(user) {
     return result.rows[0];
 }
 
+async function getAllUsers() {
+    const sql = "SELECT * FROM users ORDER BY created_at DESC";
+    const result = await db.query(sql);
+    return result.rows;
+}
+
+async function getUserById(id) {
+    const sql = "SELECT * FROM users WHERE id=$1";
+    const result = await db.query(sql, [id]);
+    return result.rows[0];
+}
+
 export {
     findUserByEmail,
-    createUser
+    createUser,
+    getAllUsers,
+    getUserById
 };
