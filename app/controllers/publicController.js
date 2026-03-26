@@ -10,12 +10,6 @@ const showContactPage = (req, res) => {
     });
 }
 
-const showServicePage = (req, res) => {
-    res.render("services", {
-        error: null
-    });
-}
-
 const showProfilePage = (req, res) => {
     if(!req.session.user) {
         return res.redirect("/auth/login");
@@ -30,6 +24,5 @@ const showProfilePage = (req, res) => {
 export {
     showHomePage,
     showContactPage,
-    showServicePage,
     showProfilePage
 };

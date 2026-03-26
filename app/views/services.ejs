@@ -2,12 +2,45 @@
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
-    <title>Szolgáltatások</title> 
+    <title>Szolgáltatások</title>
+    <link rel="stylesheet" href="/css/header.css">
 </head>
 <body>
     <%- include("partials/header.ejs") %>
 
     <h1>Szolgáltatások</h1>
-    <p>Ez a szolgáltatások oldal.</p>
+    <p>Itt láthatod az összes szolgáltatást.</p>
+    <% if (!services || services.length === 0) { %>
+        <p>Nincsenek szolgáltatások.</p>
+    <% } else { %>
+        <table border="1" cellpadding="8">
+            <thead>
+                <tr>
+                    <th>Név</th>
+                    <th>Leírás</th>
+                    <th>Ár</th>
+                    <th>Időtartam</th>
+                    <th>Aktív-e</th>
+                    <th>Létrehozva</th>
+                    <th>Frissítve</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% active_services.forEach(active_service => { %>
+                    <tr>
+                        <td style="font-weight: bold;">
+                            <a href="/services/<%= active_service.id %>"><%= active_service.name %></a>
+                        </td>
+                        <td><%= active_service.description %></td>
+                        <td><%= active_service.price %></td>
+                        <td><%= active_service.duration %></td>
+                        <td><%= active_service.is_active %></td>
+                        <td><%= new Date(active_service.created_at).toLocaleString() %></td>
+                        <td><%= new Date(active_service.updated_at).toLocaleString() %></td>                        
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    <% } %>
 </body>
 </html>

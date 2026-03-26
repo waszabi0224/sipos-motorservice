@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Szolgáltatások</title>
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/serviceModal.css">
+</head>
+<body>
+    <%- include("../partials/header.ejs") %>
+    <%- include("../partials/serviceModal.ejs") %>
+
+    <h1>Szolgáltatások</h1>
+    <p>Itt láthatod az összes szolgáltatást.</p>
+    <% if (!services || services.length === 0) { %>
+        <p>Nincsenek szolgáltatások.</p>
+    <% } else { %>
+        <table border="1" cellpadding="8">
+            <thead>
+                <tr>
+                    <th>Név</th>
+                    <th>Leírás</th>
+                    <th>Ár</th>
+                    <th>Időtartam</th>
+                    <th>Aktív-e</th>
+                    <th>Létrehozva</th>
+                    <th>Frissítve</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% services.forEach(service => { %>
+                    <tr>
+                        <td><%= service.name %></td>
+                        <td><%= service.description %></td>
+                        <td><%= service.price %></td>
+                        <td><%= service.duration %></td>
+                        <td><%= service.is_active %></td>
+                        <td><%= new Date(service.created_at).toLocaleString() %></td>
+                        <td><%= new Date(service.updated_at).toLocaleString() %></td>
+                        <td><button type="button" class="editServiceBtn" data-id="<%=service.id %>" data-name="<%=service.name %>" data-description="<%=service.description %>" data-price="<%=service.price %>" data-duration="<%=service.duration %>" data-is_active="<%=service.is_active %>">Módosítás</button></td>
+                        <td>
+                            <form action="/admin/services/<%=service.id%>?_method=DELETE" method="POST">
+                                <button type="submit">Törlés</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    <% } %>
+
+    <button type="button" id="openModalBtn">Új szolgáltatás</button>
+
+    <script src="/js/serviceModal.js"></script>
+</body>
+</html>

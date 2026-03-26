@@ -2,7 +2,8 @@
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
-    <title>Saját adataim</title> 
+    <title>Saját adataim</title>
+    <link rel="stylesheet" href="/css/header.css">
 </head>
 <body>
     <%- include("partials/header.ejs") %>
@@ -18,7 +19,9 @@
         <li><strong>Létrehozva:</strong> <%= new Date(user.created_at).toLocaleString() %></li>
     </ul>
 
-    <p style="font-size: large;">Időpontok</p>
+    <% if(user.role === "customer") { %>
+        <p style="font-size: large;">Időpontok</p>
+    <% } %>
 
     <p style="font-size: large;">Motorjaim</p>
 

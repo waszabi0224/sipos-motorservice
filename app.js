@@ -5,11 +5,14 @@ import adminRoutes from "./app/routes/adminRoutes.js";
 import path from "path";
 import { fileURLToPath } from "url";
 import session from "express-session";
+import methodOverride from "method-override";
+import { getActiveServices } from "./app/models/serviceModel.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+app.use(methodOverride("_method"));
 app.use(express.json());
 
 app.set("view engine", "ejs");
@@ -26,6 +29,11 @@ app.use(session({
 
 app.use((req, res, next) => {
     res.locals.user = req.session.user || null;
+    next();
+});
+
+app.use(async (req, res, next) => {
+    res.locals.active_services = await getActiveServices();
     next();
 });
 

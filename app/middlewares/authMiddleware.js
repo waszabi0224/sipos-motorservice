@@ -12,4 +12,15 @@ const isAdmin = (req, res, next) => {
     next();
 }
 
-export default isAdmin;
+const isAuth = (req, res, next) => {
+    if(!req.session.user) {
+        return res.status.redirect("/auth/login");
+    }
+
+    next();
+}
+
+export {
+    isAdmin,
+    isAuth
+};

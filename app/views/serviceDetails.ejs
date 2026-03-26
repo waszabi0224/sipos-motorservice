@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Főoldal</title>
+    <link rel="stylesheet" href="/css/header.css">
+</head>
+<body>
+    <%- include("partials/header.ejs") %>
+
+    <h1>Részletek</h1>
+    <p>Ez egy részletező oldal!</p>
+    <ul>
+        <li><strong>Név:</strong> <%= service.name %></li>
+        <li><strong>Leírás:</strong> <%= service.description %></li>
+        <li><strong>Ár:</strong> <%= service.price %></li>
+        <li><strong>Időtartam:</strong> <%= service.duration %></li>
+        <li><strong>Aktív-e:</strong> <%= service.is_active %></li>
+        <li><strong>Létrehozva:</strong> <%= new Date(service.created_at).toLocaleString() %></li>
+        <li><strong>Frissítve:</strong> <%= new Date(service.updated_at).toLocaleString() %></li>
+    </ul>
+</body>
+</html>
