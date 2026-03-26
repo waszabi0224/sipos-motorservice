@@ -1,8 +1,8 @@
-import db from "../db.js";
+import db from "../db/db.js";
 
 async function createAppointment(appointment) {
-    const sql = "INSERT INTO appointments(user_id, service_id, appointment_date, appointment_time, vehicle_brand, vehicle_type, license_plate, note, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *";
-    const result = await db.query(sql, [appointment.user_id, appointment.service_id, appointment.appointment_date, appointment.appointment_time, appointment.vehicle_brand, appointment.vehicle_type, appointment.license_plate, appointment.note, appointment.status]);
+    const sql = "INSERT INTO appointments(user_id, appointment_date, appointment_time, vehicle_brand, vehicle_type, license_plate, note) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *";
+    const result = await db.query(sql, [appointment.user_id, appointment.appointment_date, appointment.appointment_time, appointment.vehicle_brand, appointment.vehicle_type, appointment.license_plate, appointment.note]);
     return result.rows[0];
 }
 
@@ -18,8 +18,15 @@ async function getAppointmentsByUserId(userId) {
     return result.rows;
 }
 
+async function getAppointmentById(id) {
+    const sql = "SELECT * FROM appointments WHERE id=$1";
+    const result = await db.query(sql, [id]);
+    return result.rows[0];
+}
+
 export {
     createAppointment,
     getAllAppointments,
-    getAppointmentsByUserId
+    getAppointmentsByUserId,
+    getAppointmentById
 };

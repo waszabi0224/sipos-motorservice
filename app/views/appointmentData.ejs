@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Regisztráció</title>
+    <link rel="stylesheet" href="/css/header.css">
+</head>
+<body>
+    <%- include("partials/header.ejs") %>
+
+    <h1>Adatok</h1>
+
+    <% if (error) { %>
+        <p style="color: red;"><%= error %></p>
+    <% } %>
+
+    <form action="/auth/appointment/data" method="POST">
+        <div>
+            <label for="vehicle_brand">Gyártmány:</label>
+            <input type="text" id="vehicle_brand" name="vehicle_brand" required>
+        </div>
+
+        <div>
+            <label for="vehicle_type">Típus:</label>
+            <input type="text" id="vehicle_type" name="vehicle_type" required>
+        </div>
+
+        <div>
+            <label for="license_plate">Rendszám:</label>
+            <input type="text" id="license_plate" name="license_plate">
+        </div>
+
+        <div>
+            <label for="note">Megjegyzés:</label>
+            <input type="text" id="note" name="note" required>
+        </div>
+
+        <button type="submit">Befejezés</button>
+    </form>
+</body>
+</html>

@@ -12,6 +12,18 @@ const showServicePage = async (req, res) => {
     };
 }
 
+const showAppointmentServicePage = async (req, res) => {
+    try {
+        const services = await getAllServices();
+
+        return res.render("appointmentService", {
+            services
+        });
+    } catch(error) {
+        return res.status(500).send("Hiba történt a szolgáltatások lekérése során!");
+    };
+}
+
 const showServiceDetailsPage = async (req, res) => {
     try {
         const { id } = req.params;
@@ -28,5 +40,6 @@ const showServiceDetailsPage = async (req, res) => {
 
 export {
     showServicePage,
+    showAppointmentServicePage,
     showServiceDetailsPage
 };

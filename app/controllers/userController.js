@@ -107,10 +107,21 @@ const logoutUser = (req, res) => {
     res.redirect("/");
 };
 
+const showProfilePage = (req, res) => {
+    if(!req.session.user) {
+        return res.redirect("/auth/login");
+    }
+    res.render("profile", {
+        user: req.session.user,
+        error: null
+    });
+}
+
 export {
     showRegisterPage,
     registerUser,
     showloginPage,
     loginUser,
-    logoutUser
+    logoutUser,
+    showProfilePage
 };

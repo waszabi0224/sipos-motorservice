@@ -10,19 +10,7 @@ const showContactPage = (req, res) => {
     });
 }
 
-const showProfilePage = (req, res) => {
-    if(!req.session.user) {
-        return res.redirect("/auth/login");
-    }
-    res.render("profile", {
-        user: req.session.user,
-        error: null
-    });
-}
-
-
 export {
     showHomePage,
-    showContactPage,
-    showProfilePage
+    showContactPage
 };

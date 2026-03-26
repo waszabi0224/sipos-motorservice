@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Időpont választás</title>
+    <link rel="stylesheet" href="/css/appointmentTime.css">
+</head>
+<body>
+    <%- include("partials/header.ejs") %>
+
+    <h1>Válassz napot és időpontot</h1>
+
+    <% if (error) { %>
+        <p><%= error %></p>
+    <% } %>
+
+    <form action="/auth/appointment/time" method="POST">
+        <input type="hidden" id="appointment_date" name="appointment_date" required>
+
+        <div class="calendar-wrapper">
+            <div class="calendar-header">
+                <button type="button" id="prevMonthBtn">&lt;</button>
+                <h2 id="calendarTitle"></h2>
+                <button type="button" id="nextMonthBtn">&gt;</button>
+            </div>
+
+            <div class="calendar-weekdays">
+                <div>Hé</div>
+                <div>Ke</div>
+                <div>Sze</div>
+                <div>Csü</div>
+                <div>Pé</div>
+                <div>Szo</div>
+                <div>Va</div>
+            </div>
+
+            <div id="calendarGrid" class="calendar-grid"></div>
+        </div>
+
+        <h2>Kiválasztott nap: <span id="selectedDateText">nincs kiválasztva</span></h2>
+
+        <div class="times-wrapper">
+            <h3>Szabad időpontok</h3>
+
+            <div class="time-slots">
+                <label class="time-slot">
+                    <input type="radio" name="appointment_time" value="08:00" required>
+                    <span>08:00</span>
+                </label>
+
+                <label class="time-slot">
+                    <input type="radio" name="appointment_time" value="09:00">
+                    <span>09:00</span>
+                </label>
+
+                <label class="time-slot">
+                    <input type="radio" name="appointment_time" value="10:00">
+                    <span>10:00</span>
+                </label>
+
+                <label class="time-slot">
+                    <input type="radio" name="appointment_time" value="11:00">
+                    <span>11:00</span>
+                </label>
+
+                <label class="time-slot">
+                    <input type="radio" name="appointment_time" value="13:00">
+                    <span>13:00</span>
+                </label>
+
+                <label class="time-slot">
+                    <input type="radio" name="appointment_time" value="14:00">
+                    <span>14:00</span>
+                </label>
+
+                <label class="time-slot">
+                    <input type="radio" name="appointment_time" value="15:00">
+                    <span>15:00</span>
+                </label>
+            </div>
+        </div>
+
+        <button type="submit">Tovább</button>
+    </form>
+
+    <script src="/js/appointmentCalendar.js"></script>
+</body>
+</html>
