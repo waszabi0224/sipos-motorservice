@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Saját adataim</title>
+    <link rel="stylesheet" href="/css/header.css">
+</head>
+<body>
+    <%- include("../partials/header.ejs") %>
+
+    <h1>Időpontok</h1>
+
+    <% if (!appointments || appointments.length === 0) { %>
+        <p>Nincsenek időpontok.</p>
+    <% } else { %>
+    <table border="1" cellpadding="8">
+        <thead>
+            <tr>
+                <th>Dátum</th>
+                <th>Idő</th>
+                <th>Márka</th>
+                <th>Típus</th>
+                <th>Rendszám</th>
+                <th>Megjegyzés</th>
+                <th>Létrehozva</th>
+                <th>Szolgáltatás</th>
+                <th>Státusz</th>
+                <th>Vezetéknév</th>
+                <th>Keresztnév</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% appointments.forEach(appointment => { %>
+                <tr>
+                    <td><%= new Date(appointment.appointment_date).toLocaleDateString() %></td>                        
+                    <td><%= appointment.appointment_time %></td>
+                    <td><%= appointment.vehicle_brand %></td>
+                    <td><%= appointment.vehicle_type %></td>
+                    <td><%= appointment.license_plate %></td>
+                    <td><%= appointment.note %></td>
+                    <td><%= new Date(appointment.created_at).toLocaleString() %></td>
+                    <td><%= appointment.services %></td>
+                    <td>
+                        <form action="/admin/appointments/<%= appointment.id %>?_method=PATCH" method="POST" style="display: flex; gap: 8px; align-items: center;">
+                            <select name="status">
+                                <option value="Feldolgozás alatt" <%= appointment.status === "Feldolgozás alatt" ? "selected" : "" %>>
+                                    Feldolgozás alatt
+                                </option>
+
+                                <option value="Elfogadva" <%= appointment.status === "Elfogadva" ? "selected" : "" %>>
+                                    Elfogadva
+                                </option>
+
+                                <option value="Folyamatban" <%= appointment.status === "Folyamatban" ? "selected" : "" %>>
+                                    Folyamatban
+                                </option>
+
+                                <option value="Teljesítve" <%= appointment.status === "Teljesítve" ? "selected" : "" %>>
+                                    Teljesítve
+                                </option>
+                            </select>
+
+                            <button type="submit">Mentés</button>
+                        </form>
+                    </td>
+                    <td><%= appointment.last_name %></td>
+                    <td><%= appointment.first_name %></td>
+                    <td><%= appointment.email %></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+    <% } %>
+
+    <p style="font-size: large;">Motorjaim</p>
+
+</body>
+</html>

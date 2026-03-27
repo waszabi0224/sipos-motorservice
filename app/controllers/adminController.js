@@ -1,5 +1,6 @@
 import { getUserById, getAllUsers } from "../models/userModel.js";
 import { getAllServices, createService, updateService, deleteService } from "../models/serviceModel.js";
+import { getAllAppointments, getAppointmentsByUserId, updateAppointment } from "../models/appointmentModel.js";
 
 const showAdminPage = (req, res) => {
     res.render("admin/adminHome", {
@@ -30,13 +31,19 @@ const showUserPageById = async (req, res, next) => {
         try {
             const { id } = req.params;
             const selectedUser = await getUserById(id);
+            const appointments = await getAppointmentsByUserId(id);
 
             if(!selectedUser) {
                 return res.status(404).send("A felhasználó nem található!");
             }
 
+            if(!appointments) {
+                return res.status(404).send("Nincsenek időpontok!");
+            }
+
             return res.render("admin/userPage", {
-                selectedUser
+                selectedUser,
+                appointments
             });
         } catch(error) {
             return res.status(500).send("Hiba történt a felhasználó lekérése során!");
@@ -123,6 +130,46 @@ const showServicesPage = async (req, res, next) => {
     }
 }
 
+const showAppointmentsPage = async (req, res, next) => {
+    if(req.session.user.role === "admin") {
+        try {
+            const appointments = await getAllAppointments();
+
+            return res.render("admin/appointments", {
+                appointments
+            });
+        } catch(error) {
+            console.log("hiba: ", error);
+            return res.status(500).send("Hiba történt az időpontok lekérése során!");
+        }
+    } else {
+        return res.status(403).send("Nincs jogosultságod megtekinteni ezt az oldalt!");
+    }
+}
+
+const updateAnAppointment = async (req, res, next) => {
+    if(req.session.user.role === "admin") {
+        try {
+            const { id } = req.params;
+            const { status, redirectTo } = req.body;
+
+            if(!status) {
+                return res.status(400).render("admin/appointments", {
+                    error: "Minden mező kitöltése kötelező!"
+                });
+            }
+
+            const appointment = await updateAppointment(id, { status });
+
+            return res.redirect(redirectTo || "/admin/appointments");
+        } catch(error) {
+            return res.status(500).send("Hiba történt a státusz módosítása során!");
+        }
+    } else {
+        return res.status(403).send("Nincs jogosultságod megtekinteni ezt az oldalt!");
+    }
+}
+
 export {
     showAdminPage,
     showUserPage,
@@ -130,5 +177,7 @@ export {
     showServicesPage,
     createAService,
     updateAService,
-    deleteAService
+    deleteAService,
+    showAppointmentsPage,
+    updateAnAppointment
 };
