@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <title>Saját adataim</title>
     <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/serviceModal.css">
 </head>
 <body>
     <%- include("partials/header.ejs") %>
+    <%- include("partials/bikeModal.ejs") %>
 
     <h1>Saját profilom</h1>
 
@@ -23,42 +25,85 @@
         <p style="font-size: large;">Időpontok</p>
 
         <% if (!appointments || appointments.length === 0) { %>
-        <p>Nincsenek időpontok.</p>
+            <p>Nincsenek időpontok.</p>
         <% } else { %>
-        <table border="1" cellpadding="8">
-            <thead>
-                <tr>
-                    <th>Dátum</th>
-                    <th>Idő</th>
-                    <th>Márka</th>
-                    <th>Típus</th>
-                    <th>Rendszám</th>
-                    <th>Megjegyzés</th>
-                    <th>Létrehozva</th>
-                    <th>Szolgáltatás</th>
-                    <th>Státusz</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% appointments.forEach(appointment => { %>
+            <table border="1" cellpadding="8">
+                <thead>
                     <tr>
-                        <td><%= new Date(appointment.appointment_date).toLocaleDateString() %></td>                        
-                        <td><%= appointment.appointment_time %></td>
-                        <td><%= appointment.vehicle_brand %></td>
-                        <td><%= appointment.vehicle_type %></td>
-                        <td><%= appointment.license_plate %></td>
-                        <td><%= appointment.note %></td>
-                        <td><%= new Date(appointment.created_at).toLocaleString() %></td>
-                        <td><%= appointment.services %></td>
-                        <td><%= appointment.status %></td>
+                        <th>Dátum</th>
+                        <th>Idő</th>
+                        <th>Márka</th>
+                        <th>Típus</th>
+                        <th>Rendszám</th>
+                        <th>Megjegyzés</th>
+                        <th>Létrehozva</th>
+                        <th>Szolgáltatás</th>
+                        <th>Státusz</th>
                     </tr>
-                <% }); %>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <% appointments.forEach(appointment => { %>
+                        <tr>
+                            <td><%= new Date(appointment.appointment_date).toLocaleDateString() %></td>                        
+                            <td><%= appointment.appointment_time %></td>
+                            <td><%= appointment.vehicle_brand %></td>
+                            <td><%= appointment.vehicle_type %></td>
+                            <td><%= appointment.license_plate %></td>
+                            <td><%= appointment.note %></td>
+                            <td><%= new Date(appointment.created_at).toLocaleString() %></td>
+                            <td><%= appointment.services %></td>
+                            <td><%= appointment.status %></td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
         <% } %>
+
+        <p style="font-size: large;">Motorjaim</p>
+
+        <% if (!bikes || bikes.length === 0) { %>
+            <p>Nincsenek motorok.</p>
+        <% } else { %>
+            <table border="1" cellpadding="8">
+                <thead>
+                    <tr>
+                        <th>Gyártmány</th>
+                        <th>Modell</th>
+                        <th>Típus</th>
+                        <th>Kategória</th>
+                        <th>Ütem</th>
+                        <th>Henger (cc)</th>
+                        <th>Évjárat</th>
+                        <th>Létrehozva</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% bikes.forEach(bike => { %>
+                        <tr>
+                            <td><%= bike.brand %></td>
+                            <td><%= bike.model %></td>
+                            <td><%= bike.type %></td>
+                            <td><%= bike.category %></td>
+                            <td><%= bike.stroke %></td>
+                            <td><%= bike.cylinder %></td>
+                            <td><%= bike.generation %></td>
+                            <td><%= new Date(bike.created_at).toLocaleString() %></td>
+                            <td><button type="button" class="editBikeBtn" data-id="<%=bike.id %>" data-brand="<%=bike.brand %>" data-model="<%=bike.model %>" data-type="<%=bike.type %>" data-category="<%=bike.category %>" data-stroke="<%=bike.stroke %>" data-cylinder="<%=bike.cylinder %>" data-generation="<%=bike.generation %>">Módosítás</button></td>
+                            <td>
+                                <form action="/auth/bikes/<%=bike.id%>?_method=DELETE" method="POST">
+                                    <button type="submit">Törlés</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        <% } %>
+
+        <button type="button" id="openModalBtn">Új motor</button>
+
+        <script src="/js/bikeModal.js"></script>
+
     <% } %>
-
-    <p style="font-size: large;">Motorjaim</p>
-
 </body>
 </html>

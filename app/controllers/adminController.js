@@ -1,6 +1,6 @@
 import { getUserById, getAllUsers } from "../models/userModel.js";
 import { getAllServices, createService, updateService, deleteService } from "../models/serviceModel.js";
-import { getAllAppointments, getAppointmentsByUserId, updateAppointment } from "../models/appointmentModel.js";
+import { getAllAppointments, getAppointmentByUserId, updateAppointment } from "../models/appointmentModel.js";
 
 const showAdminPage = (req, res) => {
     res.render("admin/adminHome", {
@@ -31,7 +31,7 @@ const showUserPageById = async (req, res, next) => {
         try {
             const { id } = req.params;
             const selectedUser = await getUserById(id);
-            const appointments = await getAppointmentsByUserId(id);
+            const appointments = await getAppointmentByUserId(id);
 
             if(!selectedUser) {
                 return res.status(404).send("A felhasználó nem található!");

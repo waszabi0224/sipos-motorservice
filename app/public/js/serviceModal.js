@@ -3,7 +3,7 @@ const openModal = document.getElementById("openModalBtn");
 const closeModal = document.getElementById("closeModalBtn");
 
 const form = document.getElementById("serviceForm");
-const modalTitle = document.getElementById("modalTitle");
+const title = document.getElementById("modalTitle");
 const submitBtn = document.getElementById("submitBtn");
 
 const nameInput = document.getElementById("name");
@@ -14,7 +14,7 @@ const isActiveInput = document.getElementById("is_active");
 
 //create
 openModal.addEventListener("click", () => {
-    modalTitle.textContent = "Új szolgáltatás";
+    title.textContent = "Új szolgáltatás";
     form.action = "/admin/services";
     form.reset();
     isActiveInput.value = "true";
@@ -25,7 +25,7 @@ openModal.addEventListener("click", () => {
 //update
 document.querySelectorAll(".editServiceBtn").forEach(button => {
     button.addEventListener("click", () => {
-        modalTitle.textContent = "Szolgáltatás módosítása";
+        title.textContent = "Szolgáltatás módosítása";
         form.action = `/admin/services/${button.dataset.id}?_method=PATCH`;
 
         nameInput.value = button.dataset.name;
@@ -34,7 +34,7 @@ document.querySelectorAll(".editServiceBtn").forEach(button => {
         durationInput.value = button.dataset.duration;
         isActiveInput.value = button.dataset.is_active;
 
-        submitBtn.textContent = "Módosítás";
+        submitBtn.textContent = "Mentés";
         modal.classList.add("active");
     });
 });

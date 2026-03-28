@@ -7,12 +7,14 @@ import { fileURLToPath } from "url";
 import session from "express-session";
 import methodOverride from "method-override";
 import { getActiveServices } from "./app/models/serviceModel.js";
-import { getAppointmentsByUserId } from "./app/models/appointmentModel.js";
+import { getAppointmentByUserId } from "./app/models/appointmentModel.js";
+import { getBikeByUserId } from "./app/models/bikeModel.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+
 app.use(methodOverride("_method"));
 app.use(express.json());
 
@@ -24,7 +26,7 @@ app.use(express.static(path.join(__dirname, "app", "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
     secret: "titkos-kulcs",
-    resave: "false",
+    resave: false,
     saveUninitialized: "false"
 }));
 
@@ -34,23 +36,38 @@ app.use((req, res, next) => {
 });
 
 app.use(async (req, res, next) => {
-    res.locals.active_services = await getActiveServices();
-    next();
+    try {
+        res.locals.active_services = await getActiveServices();
+        next();
+    } catch(error) {
+        next(error);
+    }
 });
 
 app.use(async (req, res, next) => {
     try {
         if(req.session.user) {
-            res.locals.appointments = await getAppointmentsByUserId(req.session.user.id);
+            res.locals.appointments = await getAppointmentByUserId(req.session.user.id);
         } else {
             res.locals.appointments = [];
         }
-
         next();
     } catch(error) {
         next(error);
     }
-    
+});
+
+app.use(async (req, res, next) => {
+    try {
+        if(req.session.user) {
+            res.locals.bikes = await getBikeByUserId(req.session.user.id);
+        } else {
+            res.locals.bikes = [];
+        }
+        next();
+    } catch(error) {
+        next(error);
+    }
 });
 
 app.use("/auth", userRoutes);

@@ -1,0 +1,57 @@
+<div class="modal-backdrop" id="bikeModal">
+    <div class="modal">
+        <form id="bikeForm" method="POST">
+            <div>
+                <h1 id="modalTitle">Új motor</h1>
+            </div>
+
+            <div>
+                <label for="brand">Gyártmány:</label>
+                <input type="text" id="brand" name="brand" required>
+            </div>
+
+            <div>
+                <label for="model">Modell:</label>
+                <input type="text" id="model" name="model" required>
+            </div>
+
+            <div>
+                <label for="type">Típus:</label>
+                <input type="text" id="type" name="type" required>
+            </div>
+
+            <div>
+                <label for="category">Kategória:</label>
+                <input type="text" id="category" name="category" required>
+            </div>
+
+            <div>
+                <label for="stroke">Ütem:</label>
+                <select id="stroke" name="stroke">
+                    <option value="2T">2T</option>
+                    <option value="4T">4T</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="cylinder">Henger (cc):</label>
+                <input type="number" id="cylinder" name="cylinder" required>
+            </div>
+
+            <div>
+                <label for="generation">Évjárat:</label>
+                <select id="generation" name="generation" required>
+                    <option value="">Válassz évet</option>
+                    <% for (let year = new Date().getFullYear(); year >= 2010; year--) { %>
+                        <option value="<%= year %>"><%= year %></option>
+                    <% } %>
+                </select>
+            </div>
+
+            <div class="margin-top: 15px;">
+                <button type="submit" id="submitBtn">Létrehozás</button>
+                <button type="button" id="closeModalBtn">Mégse</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -21,7 +21,7 @@ async function getAllAppointments() {
     return result.rows;
 }
 
-async function getAppointmentsByUserId(userId) {
+async function getAppointmentByUserId(userId) {
     const sql = `SELECT a.id, a.appointment_date, a.appointment_time, a.vehicle_brand, 
                     a.vehicle_type, a.license_plate, a.note, a.created_at, a.status, 
                     STRING_AGG(services.name, ', ') AS services
@@ -50,7 +50,7 @@ async function updateAppointment(id, updatedAppointment) {
 export {
     createAppointment,
     getAllAppointments,
-    getAppointmentsByUserId,
+    getAppointmentByUserId,
     getAppointmentById,
     updateAppointment
 };
