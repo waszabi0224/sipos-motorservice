@@ -1,0 +1,36 @@
+.section-box {
+    max-width: 400px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 20px;
+}
+
+.bike-option {
+    margin-bottom: 10px;
+}
+
+.hidden {
+    display: none;
+}
+
+.bike-form-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.bike-card {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-top: 10px;
+    background: #f8f8f8;
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+button {
+    margin-top: 15px;
+}

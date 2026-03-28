@@ -55,7 +55,18 @@
                 </div>
 
                 <div>
-                    <a href="/services">Szolgáltatások</a>
+                    <li class="dropdown">
+                        <a href="/services">Szolgáltatások</a>
+                        <ul class="dropdown-menu">
+                            <% if(active_services) { %>
+                                <% active_services.forEach(active_service => { %>
+                                    <li>
+                                        <a href="/services/<%= active_service.id %>"><%= active_service.name %></a>
+                                    </li>
+                                <% }) %>
+                            <% } %>
+                        </ul>
+                    </li>
                 </div>
 
                 <div>
@@ -80,7 +91,18 @@
                 </div>
 
                 <div>
-                    <a href="/admin/services">Szolgáltatások</a>
+                    <li class="dropdown">
+                        <a href="/admin/services">Szolgáltatások</a>
+                        <ul class="dropdown-menu">
+                            <% if(services) { %>
+                                <% services.forEach(service => { %>
+                                    <li>
+                                        <a href="/services/<%= service.id %>"><%= service.name %></a>
+                                    </li>
+                                <% }) %>
+                            <% } %>
+                        </ul>
+                    </li>
                 </div>
 
                 <div>

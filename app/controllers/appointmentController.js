@@ -1,5 +1,6 @@
 import { createAppointment } from "../models/appointmentModel.js";
 import { createAppointmentService } from "../models/appointmentServiceModel.js";
+import { getBikeById } from "../models/bikeModel.js";
 
 const selectService = (req, res) => {
     const user_id = req.session.user.id;
@@ -36,24 +37,57 @@ const showDatasPage = (req, res) => {
 }
 
 const upDatasAndSave = async (req, res) => {
-    req.session.appointment = {
-        ...req.session.appointment,
-        vehicle_brand: req.body.vehicle_brand,
-        vehicle_type: req.body.vehicle_type,
-        license_plate: req.body.license_plate,
-        note: req.body.note
-    };
-
-    const appointmentDatas = req.session.appointment;
-
     try {
+        req.session.appointment = {
+            ...req.session.appointment,
+            bike_id: req.body.bike_id || null,
+            note: req.body.note
+        };
+
+        if(req.session.appointment.bike_id) {
+            const bike = await getBikeById(req.session.appointment.bike_id);
+
+            if(!bike) {
+                return res.status(400).send("Nincs ilyen motorod!");
+            }
+
+            req.session.appointment = {
+                ...req.session.appointment,
+                bike_brand: bike.brand,
+                bike_model: bike.model,
+                bike_type: bike.type,
+                bike_category: bike.category,
+                bike_stroke: bike.stroke,
+                bike_cylinder: bike.cylinder,
+                bike_generation: bike.generation
+            };
+        } else {
+            req.session.appointment = {
+                ...req.session.appointment,
+                bike_brand: req.body.bike_brand,
+                bike_model: req.body.bike_model,
+                bike_type: req.body.bike_type,
+                bike_category: req.body.bike_category,
+                bike_stroke: req.body.bike_stroke,
+                bike_cylinder: req.body.bike_cylinder,
+                bike_generation: req.body.bike_generation
+            };
+        }
+    
+        const appointmentDatas = req.session.appointment;
+
         const appointment = await createAppointment({
             user_id: appointmentDatas.user_id,
+            bike_id: appointmentDatas.bike_id,
             appointment_date: appointmentDatas.appointment_date,
             appointment_time: appointmentDatas.appointment_time,
-            vehicle_brand: appointmentDatas.vehicle_brand,
-            vehicle_type: appointmentDatas.vehicle_type,
-            license_plate: appointmentDatas.license_plate,
+            bike_brand: appointmentDatas.bike_brand,
+            bike_model: appointmentDatas.bike_model,
+            bike_type: appointmentDatas.bike_type,
+            bike_category: appointmentDatas.bike_category,
+            bike_stroke: appointmentDatas.bike_stroke,
+            bike_cylinder: appointmentDatas.bike_cylinder,
+            bike_generation: appointmentDatas.bike_generation,
             note: appointmentDatas.note,
             status: "Feldolgozás alatt"
         });
@@ -69,7 +103,7 @@ const upDatasAndSave = async (req, res) => {
     } catch(error) {
         console.log("hiba: ", error);
         return res.status(500).render("appointmentData", {
-            error: "Hiba történt az időpontfoglalás során!"
+            error
         })
     }
 };

@@ -6,7 +6,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import session from "express-session";
 import methodOverride from "method-override";
-import { getActiveServices } from "./app/models/serviceModel.js";
+import { getActiveServices, getAllServices } from "./app/models/serviceModel.js";
 import { getAppointmentByUserId } from "./app/models/appointmentModel.js";
 import { getBikeByUserId } from "./app/models/bikeModel.js";
 
@@ -33,6 +33,15 @@ app.use(session({
 app.use((req, res, next) => {
     res.locals.user = req.session.user || null;
     next();
+});
+
+app.use(async (req, res, next) => {
+    try {
+        res.locals.services = await getAllServices();
+        next();
+    } catch(error) {
+        next(error);
+    }
 });
 
 app.use(async (req, res, next) => {

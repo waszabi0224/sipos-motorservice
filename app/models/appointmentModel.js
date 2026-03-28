@@ -1,15 +1,15 @@
 import db from "../db/db.js";
 
 async function createAppointment(appointment) {
-    const sql = "INSERT INTO appointments(user_id, appointment_date, appointment_time, vehicle_brand, vehicle_type, license_plate, note) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *";
-    const result = await db.query(sql, [appointment.user_id, appointment.appointment_date, appointment.appointment_time, appointment.vehicle_brand, appointment.vehicle_type, appointment.license_plate, appointment.note]);
+    const sql = "INSERT INTO appointments(user_id, bike_id, appointment_date, appointment_time, bike_brand, bike_model, bike_type, bike_category, bike_stroke, bike_cylinder, bike_generation, note, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *";
+    const result = await db.query(sql, [appointment.user_id, appointment.bike_id, appointment.appointment_date, appointment.appointment_time, appointment.bike_brand, appointment.bike_model, appointment.bike_type, appointment.bike_category, appointment.bike_stroke, appointment.bike_cylinder, appointment.bike_generation, appointment.note, appointment.status]);
     return result.rows[0];
 }
 
 async function getAllAppointments() {
-    const sql = `SELECT a.id, a.appointment_date, a.appointment_time, a.vehicle_brand,
-                    a.vehicle_type, a.license_plate, a.note, a.created_at, a.status,
-                    users.email, users.first_name, users.last_name,
+    const sql = `SELECT a.id, a.appointment_date, a.appointment_time, a.bike_brand, a.bike_model, a.bike_type,
+                    a.bike_category, a.bike_stroke, a.bike_cylinder, a.bike_generation, a.note, a.status,
+                    a.created_at, users.email, users.first_name, users.last_name,
                     STRING_AGG(services.name, ', ') AS services
                  FROM appointments a
                  JOIN appointment_services aps ON a.id = aps.appointment_id
@@ -22,8 +22,9 @@ async function getAllAppointments() {
 }
 
 async function getAppointmentByUserId(userId) {
-    const sql = `SELECT a.id, a.appointment_date, a.appointment_time, a.vehicle_brand, 
-                    a.vehicle_type, a.license_plate, a.note, a.created_at, a.status, 
+    const sql = `SELECT a.id, a.appointment_date, a.appointment_time, a.bike_brand, a.bike_model, a.bike_type,
+                    a.bike_category, a.bike_stroke, a.bike_cylinder, a.bike_generation, a.note, a.status,
+                    a.created_at, 
                     STRING_AGG(services.name, ', ') AS services
                  FROM appointments a
                  JOIN appointment_services aps ON a.id = aps.appointment_id

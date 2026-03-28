@@ -42,45 +42,21 @@
         <div class="times-wrapper">
             <h3>Szabad időpontok</h3>
 
+            <%
+                const timeSlots = ["08:00", "09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00"];
+            %>
+
             <div class="time-slots">
-                <label class="time-slot">
-                    <input type="radio" name="appointment_time" value="08:00" required>
-                    <span>08:00</span>
-                </label>
-
-                <label class="time-slot">
-                    <input type="radio" name="appointment_time" value="09:00">
-                    <span>09:00</span>
-                </label>
-
-                <label class="time-slot">
-                    <input type="radio" name="appointment_time" value="10:00">
-                    <span>10:00</span>
-                </label>
-
-                <label class="time-slot">
-                    <input type="radio" name="appointment_time" value="11:00">
-                    <span>11:00</span>
-                </label>
-
-                <label class="time-slot">
-                    <input type="radio" name="appointment_time" value="13:00">
-                    <span>13:00</span>
-                </label>
-
-                <label class="time-slot">
-                    <input type="radio" name="appointment_time" value="14:00">
-                    <span>14:00</span>
-                </label>
-
-                <label class="time-slot">
-                    <input type="radio" name="appointment_time" value="15:00">
-                    <span>15:00</span>
-                </label>
+                <% timeSlots.forEach(time => { %>
+                    <label class="time-slot">
+                        <input type="radio" name="appointment_time" value="<%= time %>" class="timeCheck" required>
+                        <span><%= time %></span>
+                    </label>
+                <% }) %>
             </div>
         </div>
 
-        <button type="submit">Tovább</button>
+        <button type="submit" id="nextBtn" disabled>Tovább</button>
     </form>
 
     <script src="/js/appointmentCalendar.js"></script>

@@ -9,7 +9,7 @@
     <%- include("../partials/header.ejs") %>
 
     <h1>Felhasználó</h1>
-    <p>Itt láthatod az összes felhasználót.</p>
+    <p>Itt láthatod a felhasználót.</p>
     <ul>
         <li><strong>Vezetéknév:</strong> <%= selectedUser.last_name %></li>
         <li><strong>Keresztnév:</strong> <%= selectedUser.first_name %></li>
@@ -29,9 +29,12 @@
                 <tr>
                     <th>Dátum</th>
                     <th>Idő</th>
-                    <th>Márka</th>
+                    <th>Gyártmány</th>
+                    <th>Modell</th>
                     <th>Típus</th>
-                    <th>Rendszám</th>
+                    <th>Ütem</th>
+                    <th>Henger (cc)</th>
+                    <th>Évjárat</th>
                     <th>Megjegyzés</th>
                     <th>Létrehozva</th>
                     <th>Szolgáltatás</th>
@@ -41,12 +44,14 @@
             <tbody>
                 <% appointments.forEach(appointment => { %>
                     <tr>
-                        <td><%= appointment.id %></td>
                         <td><%= new Date(appointment.appointment_date).toLocaleDateString() %></td>                        
                         <td><%= appointment.appointment_time %></td>
-                        <td><%= appointment.vehicle_brand %></td>
-                        <td><%= appointment.vehicle_type %></td>
-                        <td><%= appointment.license_plate %></td>
+                        <td><%= appointment.bike_brand %></td>
+                        <td><%= appointment.bike_model %></td>
+                        <td><%= appointment.bike_type %></td>
+                        <td><%= appointment.bike_stroke %></td>
+                        <td><%= appointment.bike_cylinder %></td>
+                        <td><%= appointment.bike_generation %></td>
                         <td><%= appointment.note %></td>
                         <td><%= new Date(appointment.created_at).toLocaleString() %></td>
                         <td><%= appointment.services %></td>
@@ -81,5 +86,38 @@
     <% } %>
     
     <p style="font-size: large;">Motorok</p>
+
+    <% if (!bikes || bikes.length === 0) { %>
+        <p>Nincsenek motorok.</p>
+    <% } else { %>
+        <table border="1" cellpadding="8">
+            <thead>
+                <tr>
+                    <th>Gyártmány</th>
+                    <th>Modell</th>
+                    <th>Típus</th>
+                    <th>Kategória</th>
+                    <th>Ütem</th>
+                    <th>Henger (cc)</th>
+                    <th>Évjárat</th>
+                    <th>Létrehozva</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% bikes.forEach(bike => { %>
+                    <tr>
+                        <td><%= bike.brand %></td>
+                        <td><%= bike.model %></td>
+                        <td><%= bike.type %></td>
+                        <td><%= bike.category %></td>
+                        <td><%= bike.stroke %></td>
+                        <td><%= bike.cylinder %></td>
+                        <td><%= bike.generation %></td>
+                        <td><%= new Date(bike.created_at).toLocaleString() %></td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    <% } %>
 </body>
 </html>

@@ -72,6 +72,7 @@ function renderCalendar() {
             appointmentDateInput.value = formatDate(date);
             selectedDateText.textContent = formatDate(date);
             renderCalendar();
+            updateButtonState();
         });
 
         calendarGrid.appendChild(dayCell);
@@ -89,3 +90,22 @@ nextMonthBtn.addEventListener("click", () => {
 });
 
 renderCalendar();
+
+//ez az időpontot nézi
+const times = document.querySelectorAll(".timeCheck");
+const nextBtn = document.getElementById("nextBtn");
+
+function updateButtonState() {
+    const hasTime = Array.from(times).some(time => time.checked);
+    const hasDate = appointmentDateInput.value.trim() !== "";
+
+    nextBtn.disabled = !(hasTime && hasDate);
+}
+
+times.forEach(time => {
+    time.addEventListener("change", updateButtonState);
+});
+
+appointmentDateInput.addEventListener("change", updateButtonState);
+
+updateButtonState();

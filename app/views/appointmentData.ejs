@@ -2,8 +2,10 @@
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
-    <title>Regisztráció</title>
+    <title>Adatok</title>
     <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/savedOrNotsavedBike.css">
+
 </head>
 <body>
     <%- include("partials/header.ejs") %>
@@ -15,27 +17,100 @@
     <% } %>
 
     <form action="/auth/appointment/data" method="POST">
-        <div>
-            <label for="vehicle_brand">Gyártmány:</label>
-            <input type="text" id="vehicle_brand" name="vehicle_brand" required>
+        <div class="section-box">
+            <h2>Van már motorod? Válassz!</h2>
+
+            <% if(bikes && bikes.length > 0) { %>
+                <div class="bike-option">
+                    <label>
+                        <input type="radio" name="bike_mode" value="saved" id="savedBikeMode" checked>
+                        Motor kiválasztása
+                    </label>
+                </div>
+
+                <div id="savedBikeSection">
+                    <label for="bike_id">Mentett motorjaid:</label>
+                    <select class="bike-card" id="bike_id" name="bike_id">
+                        <option value="">Válassz egy motort</option>
+                        <% bikes.forEach(bike => { %>
+                            <option value="<%= bike.id %>">
+                                <%= bike.brand %> <%= bike.model %> <%= bike.type %> - <%= bike.generation %>
+                            </option>
+                        <% }) %>
+                    </select>
+                </div>
+
+                <div class="bike-option" style="margin-top: 16px;">
+                    <label>
+                        <input type="radio" name="bike_mode" value="manual" id="manualBikeMode">
+                        Másik motor megadása
+                    </label>
+                </div>
+            <% } else { %>
+                <input type="hidden" name="bike_mode" value="manual">
+                Add meg a motorod adatait!
+            <% } %>
         </div>
 
-        <div>
-            <label for="vehicle_type">Típus:</label>
-            <input type="text" id="vehicle_type" name="vehicle_type" required>
+        <div class="section-box <%= bikes && bikes.length > 0 ? 'hidden' : '' %>" id="manualBikeSection">
+            <h2>Új motor adatai</h2>
+
+            <div class="bike-form-grid">
+                <div>
+                    <label for="bike_brand">Gyártmány:</label>
+                    <input type="text" id="bike_brand" name="bike_brand" required>
+                </div>
+
+                <div>
+                    <label for="bike_model">Modell:</label>
+                    <input type="text" id="bike_model" name="bike_model" required>
+                </div>
+
+                <div>
+                    <label for="bike_type">Típus:</label>
+                    <input type="text" id="bike_type" name="bike_type" required>
+                </div>
+
+                <div>
+                    <label for="bike_category">Kategória:</label>
+                    <input type="text" id="bike_category" name="bike_category">
+                </div>
+
+                <div>
+                    <label for="bike_stroke">Ütem:</label>
+                    <select id="bike_stroke" name="bike_stroke">
+                        <option value="2T">2T</option>
+                        <option value="4T">4T</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="bike_cylinder">Henger (cc):</label>
+                    <input type="number" id="bike_cylinder" name="bike_cylinder" required>
+                </div>
+
+                <div>
+                    <label for="bike_generation">Évjárat:</label>
+                    <select id="bike_generation" name="bike_generation" required>
+                        <option value="">Válassz évet</option>
+                        <% for (let year = new Date().getFullYear(); year >= 2010; year--) { %>
+                            <option value="<%= year %>"><%= year %></option>
+                        <% } %>
+                    </select>
+                </div>
+            </div>
         </div>
 
-        <div>
-            <label for="license_plate">Rendszám:</label>
-            <input type="text" id="license_plate" name="license_plate">
-        </div>
-
-        <div>
-            <label for="note">Megjegyzés:</label>
-            <input type="text" id="note" name="note" required>
+        <div class="section-box">
+            <div class="full-width">
+                <label for="note">Megjegyzés:</label>
+                <textarea id="note" name="note" rows="3"></textarea>
+            </div>
         </div>
 
         <button type="submit">Befejezés</button>
     </form>
+
+    <script src="/js/savedOrNotsavedBike.js"></script>
 </body>
 </html>

@@ -38,15 +38,17 @@
                             <td><%= new Date(active_service.updated_at).toLocaleString() %></td>
                             <td>
                                 <label>
-                                    <input type="checkbox" name="service_ids" value="<%= active_service.id %>">
+                                    <input type="checkbox" name="service_ids" value="<%= active_service.id %>" class="serviceCheckbox">
                                 </label>
                             </td>                        
                         </tr>
                     <% }); %>
-                    <button type="submit">Tovább</button>
+                    <button type="submit" id="nextBtn" disabled>Tovább</button>
                 </form>
             </tbody>
         </table>
     <% } %>
+
+    <script src="/js/appointmentService.js"></script>
 </body>
 </html>

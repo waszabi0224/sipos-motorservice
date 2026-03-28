@@ -1,6 +1,7 @@
 import { getUserById, getAllUsers } from "../models/userModel.js";
 import { getAllServices, createService, updateService, deleteService } from "../models/serviceModel.js";
 import { getAllAppointments, getAppointmentByUserId, updateAppointment } from "../models/appointmentModel.js";
+import { getBikeByUserId } from "../models/bikeModel.js";
 
 const showAdminPage = (req, res) => {
     res.render("admin/adminHome", {
@@ -32,6 +33,7 @@ const showUserPageById = async (req, res, next) => {
             const { id } = req.params;
             const selectedUser = await getUserById(id);
             const appointments = await getAppointmentByUserId(id);
+            const bikes = await getBikeByUserId(id);
 
             if(!selectedUser) {
                 return res.status(404).send("A felhasználó nem található!");
@@ -43,7 +45,8 @@ const showUserPageById = async (req, res, next) => {
 
             return res.render("admin/userPage", {
                 selectedUser,
-                appointments
+                appointments,
+                bikes
             });
         } catch(error) {
             return res.status(500).send("Hiba történt a felhasználó lekérése során!");
