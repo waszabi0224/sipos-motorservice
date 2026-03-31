@@ -1,13 +1,14 @@
 import db from "../db/db.js";
 
 async function createAppointment(appointment) {
-    const sql = "INSERT INTO appointments(user_id, bike_id, appointment_date, appointment_time, catalog_id, note, status) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *";
-    const result = await db.query(sql, [appointment.user_id, appointment.bike_id, appointment.appointment_date, appointment.appointment_time, appointment.catalog_id, appointment.note, appointment.status]);
+    const sql = "INSERT INTO appointments(user_id, bike_id, appointment_date, appointment_time, delivery_method, service_urgency, catalog_id, note, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *";
+    const result = await db.query(sql, [appointment.user_id, appointment.bike_id, appointment.appointment_date, appointment.appointment_time, appointment.delivery_method, appointment.service_urgency, appointment.catalog_id, appointment.note, appointment.status]);
     return result.rows[0];
 }
 
 async function getAllAppointments() {
-    const sql = `SELECT a.id, a.appointment_date, a.appointment_time, c.category, c.brand, c.model,
+    const sql = `SELECT a.id, a.appointment_date, a.appointment_time, a.delivery_method, a.service_urgency,
+                 c.category, c.brand, c.model,
                     c.cylinder, c.stroke, c.generation, a.created_at, a.note, a.status,
                     a.created_at, users.email, users.first_name, users.last_name,
                     STRING_AGG(services.name, ', ') AS services
@@ -24,7 +25,8 @@ async function getAllAppointments() {
 }
 
 async function getAppointmentByUserId(userId) {
-    const sql = `SELECT a.id, a.appointment_date, a.appointment_time, a.note, a.status,
+    const sql = `SELECT a.id, a.appointment_date, a.appointment_time, a.delivery_method, a.service_urgency,
+                 a.note, a.status,
                     c.category, c.brand, c.model, c.cylinder, c.stroke, c.generation, a.created_at, 
                     STRING_AGG(services.name, ', ') AS services
                  FROM appointments a

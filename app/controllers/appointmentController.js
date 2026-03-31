@@ -25,7 +25,9 @@ const selectTime = (req, res) => {
     req.session.appointment = {
         ...req.session.appointment,
         appointment_date: req.body.appointment_date,
-        appointment_time: req.body.appointment_time
+        appointment_time: req.body.appointment_time,
+        delivery_method: req.body.delivery_method,
+        service_urgency: req.body.service_urgency
     };
 
     return res.redirect("/auth/appointment/data");
@@ -87,6 +89,8 @@ const upDatasAndSave = async (req, res) => {
             bike_id: appointmentDatas.bike_id,
             appointment_date: appointmentDatas.appointment_date,
             appointment_time: appointmentDatas.appointment_time,
+            delivery_method: appointmentDatas.delivery_method,
+            service_urgency: appointmentDatas.service_urgency,
             catalog_id : appointmentDatas.catalog_id,
             note: appointmentDatas.note,
             status: "Feldolgozás alatt"

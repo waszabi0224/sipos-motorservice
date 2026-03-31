@@ -1,16 +1,32 @@
 .dropdown {
     position: relative;
+    display: inline-block;
 }
 
 .dropdown-menu {
     display: none;
     position: absolute;
+    top: 100%;
     left: 0;
-    background: gray;
-    padding: 10px;
+    background: white;
     list-style: none;
+    padding: 10px;
     margin: 0;
-    width: 75px;
+    min-width: 180px;
+    z-index: 1000;
+    border: 1px solid #ccc;
+}
+
+.dropdown-menu li {
+    margin: 0;
+    padding: 0;
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 6px 10px;
+    text-decoration: none;
+    color: black;
 }
 
 .dropdown:hover .dropdown-menu {

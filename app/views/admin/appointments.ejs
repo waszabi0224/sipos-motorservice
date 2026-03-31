@@ -18,6 +18,8 @@
             <tr>
                 <th>Dátum</th>
                 <th>Idő</th>
+                <th>Ügyintézés</th>
+                <th>Időkeret</th>
                 <th>Gyártmány</th>
                 <th>Modell</th>
                 <th>Henger (cc)</th>
@@ -37,6 +39,8 @@
                 <tr>
                     <td><%= new Date(appointment.appointment_date).toLocaleDateString() %></td>                        
                     <td><%= appointment.appointment_time %></td>
+                    <td><%= appointment.delivery_method %></td>
+                    <td><%= appointment.service_urgency %></td>
                     <td><%= appointment.brand %></td>
                     <td><%= appointment.model %></td>
                     <td><%= appointment.cylinder %></td>

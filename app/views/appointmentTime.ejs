@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Időpont választás</title>
     <link rel="stylesheet" href="/css/appointmentTime.css">
+    <link rel="stylesheet" href="/css/header.css">
 </head>
 <body>
     <%- include("partials/header.ejs") %>
@@ -53,6 +54,38 @@
                         <span><%= time %></span>
                     </label>
                 <% }) %>
+            </div>
+        </div>
+
+        <div>
+            <div class="method-option">
+                <label>
+                    <input type="radio" name="delivery_method" value="personal" id="personalDelivery" checked>
+                        Személyes ügyintézés
+                </label>
+            </div>
+
+            <div class="method-option">
+                <label>
+                    <input type="radio" name="delivery_method" value="shipping" id="shippingDelivery" checked>
+                        Szállítással
+                </label>
+            </div>
+        </div>
+
+        <div>
+            <div class="urgency-option">
+                <label>
+                    <input type="radio" name="service_urgency" value="urgent" id="urgentService" checked>
+                        Sürgős (1-3 nap)
+                </label>
+            </div>
+
+            <div class="urgency-option">
+                <label>
+                    <input type="radio" name="service_urgency" value="flexible" id="flexibleService" checked>
+                        Ráér (1-3 hét)
+                </label>
             </div>
         </div>
 
