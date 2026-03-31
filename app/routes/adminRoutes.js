@@ -5,12 +5,15 @@ import { showAdminPage, showUserPage, showUserPageById, showServicesPage, create
 const router = express.Router();
 
 router.get("/", isAdmin, showAdminPage);
+
 router.get("/users", isAdmin, showUserPage);
 router.get("/users/:id", isAdmin, showUserPageById);
+
 router.get("/services", isAdmin, showServicesPage);
 router.post("/services", isAdmin, createAService);
 router.patch("/services/:id", isAdmin, updateAService);
 router.delete("/services/:id", isAdmin, deleteAService);
+
 router.get("/appointments", isAdmin, showAppointmentsPage);
 router.patch("/appointments/:id", isAdmin, updateAnAppointment);
 

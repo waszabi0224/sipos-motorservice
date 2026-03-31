@@ -32,16 +32,16 @@
                     <tr>
                         <th>Dátum</th>
                         <th>Idő</th>
-                        <th>Gyártmány</th>
+                        <th>Kategória</th>
+                        <th>Márka</th>
                         <th>Modell</th>
-                        <th>Típus</th>
-                        <th>Ütem</th>
-                        <th>Henger (cc)</th>
+                        <th>Henger</th>
+                        <th>Ütem (cc)</th>
                         <th>Évjárat</th>
-                        <th>Megjegyzés</th>
                         <th>Létrehozva</th>
-                        <th>Szolgáltatás</th>
+                        <th>Megjegyzés</th>
                         <th>Státusz</th>
+                        <th>Szolgáltatás</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -49,16 +49,16 @@
                         <tr>
                             <td><%= new Date(appointment.appointment_date).toLocaleDateString() %></td>                        
                             <td><%= appointment.appointment_time %></td>
-                            <td><%= appointment.bike_brand %></td>
-                            <td><%= appointment.bike_model %></td>
-                            <td><%= appointment.bike_type %></td>
-                            <td><%= appointment.bike_stroke %></td>
-                            <td><%= appointment.bike_cylinder %></td>
-                            <td><%= appointment.bike_generation %></td>
-                            <td><%= appointment.note %></td>
+                            <td><%= appointment.category %></td>
+                            <td><%= appointment.brand %></td>
+                            <td><%= appointment.model %></td>
+                            <td><%= appointment.cylinder %></td>
+                            <td><%= appointment.stroke %></td>
+                            <td><%= appointment.generation %></td>
                             <td><%= new Date(appointment.created_at).toLocaleString() %></td>
-                            <td><%= appointment.services %></td>
+                            <td><%= appointment.note %></td>
                             <td><%= appointment.status %></td>
+                            <td><%= appointment.services %></td>
                         </tr>
                     <% }); %>
                 </tbody>
@@ -75,10 +75,9 @@
                     <tr>
                         <th>Gyártmány</th>
                         <th>Modell</th>
-                        <th>Típus</th>
+                        <th>Henger (cc)</th>
                         <th>Kategória</th>
                         <th>Ütem</th>
-                        <th>Henger (cc)</th>
                         <th>Évjárat</th>
                         <th>Létrehozva</th>
                     </tr>
@@ -92,13 +91,14 @@
                                 </button>
                             </td>
                             <td><%= bike.model %></td>
-                            <td><%= bike.type %></td>
+                            <td><%= bike.cylinder %></td>
                             <td><%= bike.category %></td>
                             <td><%= bike.stroke %></td>
-                            <td><%= bike.cylinder %></td>
                             <td><%= bike.generation %></td>
                             <td><%= new Date(bike.created_at).toLocaleString() %></td>
-                            <td><button type="button" class="editBikeBtn" data-id="<%= bike.id %>" data-brand="<%= bike.brand %>" data-model="<%= bike.model %>" data-type="<%= bike.type %>" data-category="<%= bike.category %>" data-stroke="<%= bike.stroke %>" data-cylinder="<%= bike.cylinder %>" data-generation="<%= bike.generation %>">Módosítás</button></td>
+                            <td>
+                                <button type="button" class="editBikeBtn" data-id="<%= bike.id %>" data-catalog-id="<%= bike.catalog_id %>" data-category="<%= bike.category %>" data-brand="<%= bike.brand %>" data-model="<%= bike.model %>" data-cylinder="<%= bike.cylinder %>" data-stroke="<%= bike.stroke %>" data-generation="<%= bike.generation %>">Módosítás</button>
+                            </td>
                             <td>
                                 <form action="/auth/bikes/<%=bike.id%>?_method=DELETE" method="POST">
                                     <button type="submit">Törlés</button>

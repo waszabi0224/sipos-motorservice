@@ -5,50 +5,56 @@
                 <h1 id="modalTitle">Új motor</h1>
             </div>
 
+            <input type="hidden" id="catalog_id" name="catalog_id">
+
+            <div>
+                <label for="category">Kategória:</label>
+                <select id="category" name="category" style="width: 150px;" required>
+                    <option value="">Válassz kategóriát</option>
+                    <% if (categories && categories.length > 0) { %>
+                        <% categories.forEach(item => { %>
+                            <option value="<%= item.category %>"><%= item.category %></option>
+                        <% }) %>
+                    <% } %>
+                </select>
+            </div>
+
             <div>
                 <label for="brand">Gyártmány:</label>
-                <input type="text" id="brand" name="brand" required>
+                <select id="brand" name="brand" style="width: 150px;" required disabled>
+                    <option value=""></option>
+                </select>
             </div>
 
             <div>
                 <label for="model">Modell:</label>
-                <input type="text" id="model" name="model" required>
-            </div>
-
-            <div>
-                <label for="type">Típus:</label>
-                <input type="text" id="type" name="type" required>
-            </div>
-
-            <div>
-                <label for="category">Kategória:</label>
-                <input type="text" id="category" name="category" required>
-            </div>
-
-            <div>
-                <label for="stroke">Ütem:</label>
-                <select id="stroke" name="stroke">
-                    <option value="2T">2T</option>
-                    <option value="4T">4T</option>
+                <select id="model" name="model" style="width: 150px;" required disabled>
+                    <option value=""></option>
                 </select>
             </div>
 
             <div>
                 <label for="cylinder">Henger (cc):</label>
-                <input type="number" id="cylinder" name="cylinder" required>
+                <select id="cylinder" name="cylinder" style="width: 150px;" required disabled>
+                    <option value=""></option>
+                </select>
+            </div>
+
+            <div>
+                <label for="stroke">Ütem:</label>
+                <select id="stroke" name="stroke" style="width: 150px;" required disabled>
+                    <option value=""></option>
+                </select>
             </div>
 
             <div>
                 <label for="generation">Évjárat:</label>
-                <select id="generation" name="generation" required>
-                    <option value="">Válassz évet</option>
-                    <% for (let year = new Date().getFullYear(); year >= 2010; year--) { %>
-                        <option value="<%= year %>"><%= year %></option>
-                    <% } %>
+                <select id="generation" name="generation" style="width: 150px;" required disabled>
+                    <option value=""></option>
                 </select>
             </div>
 
-            <div class="margin-top: 15px;">
+            <div style="margin-top: 15px;">
                 <button type="submit" id="submitBtn">Létrehozás</button>
                 <button type="button" id="closeModalBtn">Mégse</button>
             </div>

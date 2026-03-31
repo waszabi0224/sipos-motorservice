@@ -1,17 +1,23 @@
-import { createBike, getServiceByBikeId, updateBike, deleteBike } from "../models/bikeModel.js";
+import { getAppointmentByUserId } from "../models/appointmentModel.js";
+import { createBike, updateBike, deleteBike, getBikeByUserId } from "../models/bikeModel.js";
 
 const createABike = async (req, res, next) => {
     try {
         const user_id = req.session.user.id;
-        const { brand, model, type, category, stroke, cylinder, generation } = req.body;
+        const { catalog_id } = req.body;
 
-        if(!user_id || !brand || !model || !type || !category || !stroke || !cylinder || !generation) {
+        if(!catalog_id) {
+            const bikes = await getBikeByUserId(user_id);
+            const appointments = await getAppointmentByUserId(user_id);
+
             return res.status(400).render("profile", {
-                error: "Minden mező kitöltése kötelező!"
+                error: "Minden mező kitöltése kötelező!",
+                bikes,
+                appointments
             });
         }
 
-        const bike = await createBike({ user_id, brand, model, type, category, stroke, cylinder, generation });
+        const bike = await createBike({ user_id, catalog_id });
 
         return res.redirect("/auth/profile");
     } catch(error) {
@@ -21,16 +27,22 @@ const createABike = async (req, res, next) => {
 
 const updateABike = async (req, res, next) => {
     try {
+        const user_id = req.session.user.id;
         const { id } = req.params;
-        const { brand, model, type, category, stroke, cylinder, generation } = req.body;
+        const { catalog_id } = req.body;
 
-        if(!brand || !model || !type || !category || !stroke || !cylinder || !generation) {
+        if(!catalog_id) {
+            const bikes = await getBikeByUserId(user_id);
+            const appointments = await getAppointmentByUserId(user_id);
+
             return res.status(400).render("profile", {
-                error: "Minden mező kitöltése kötelező!"
+                error: "Minden mező kitöltése kötelező!",
+                bikes,
+                appointments
             });
         }
 
-        const bike = await updateBike(id, { brand, model, type, category, stroke, cylinder, generation });
+        const bike = await updateBike(id, { catalog_id });
 
         return res.redirect("/auth/profile");
     } catch(error) {

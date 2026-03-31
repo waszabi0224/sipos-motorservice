@@ -1,7 +1,6 @@
 import { getBikeByUserId, getServiceByBikeId } from "../models/bikeModel.js";
 import { findUserByEmail, createUser } from "../models/userModel.js";
 import { getAppointmentByUserId } from "../models/appointmentModel.js";
-
 import bcrypt from "bcrypt";
 
 const showRegisterPage = (req, res) => {

@@ -3,6 +3,7 @@ import { showRegisterPage, registerUser, showloginPage, loginUser, logoutUser, s
 import { showAppointmentServicePage } from "../controllers/serviceController.js";
 import { selectService, showTimePage, selectTime, showDatasPage, upDatasAndSave } from "../controllers/appointmentController.js";
 import { createABike, deleteABike, updateABike } from "../controllers/bikeController.js";
+import { showBrandsBySelection, showModelsBySelection, showCylindersBySelection, showStrokesBySelection, showGenerationsBySelection, showCatalogBySelection, showCatalogById } from "../controllers/catalogController.js";
 
 const router = express.Router();
 
@@ -26,5 +27,13 @@ router.get("/appointment/time", showTimePage);
 router.post("/appointment/time", selectTime);
 router.get("/appointment/data", showDatasPage);
 router.post("/appointment/data", upDatasAndSave);
+
+router.get("/catalog/brands/:category", showBrandsBySelection);
+router.get("/catalog/models/:category/:brand", showModelsBySelection);
+router.get("/catalog/cylinders/:category/:brand/:model", showCylindersBySelection);
+router.get("/catalog/strokes/:category/:brand/:model/:cylinder", showStrokesBySelection);
+router.get("/catalog/generations/:category/:brand/:model/:cylinder/:stroke", showGenerationsBySelection);
+router.post("/catalog/selection", showCatalogBySelection);
+router.get("/catalog/:id", showCatalogById);
 
 export default router;

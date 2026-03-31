@@ -20,9 +20,8 @@
                 <th>Idő</th>
                 <th>Gyártmány</th>
                 <th>Modell</th>
-                <th>Típus</th>
-                <th>Ütem</th>
                 <th>Henger (cc)</th>
+                <th>Ütem</th>
                 <th>Évjárat</th>
                 <th>Megjegyzés</th>
                 <th>Létrehozva</th>
@@ -38,12 +37,11 @@
                 <tr>
                     <td><%= new Date(appointment.appointment_date).toLocaleDateString() %></td>                        
                     <td><%= appointment.appointment_time %></td>
-                    <td><%= appointment.bike_brand %></td>
-                    <td><%= appointment.bike_model %></td>
-                    <td><%= appointment.bike_type %></td>
-                    <td><%= appointment.bike_stroke %></td>
-                    <td><%= appointment.bike_cylinder %></td>
-                    <td><%= appointment.bike_generation %></td>
+                    <td><%= appointment.brand %></td>
+                    <td><%= appointment.model %></td>
+                    <td><%= appointment.cylinder %></td>
+                    <td><%= appointment.stroke %></td>
+                    <td><%= appointment.generation %></td>
                     <td><%= appointment.note %></td>
                     <td><%= new Date(appointment.created_at).toLocaleString() %></td>
                     <td><%= appointment.services %></td>

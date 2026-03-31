@@ -1,6 +1,7 @@
 import { createAppointment } from "../models/appointmentModel.js";
 import { createAppointmentService } from "../models/appointmentServiceModel.js";
 import { getBikeById, getBikeByUserId } from "../models/bikeModel.js";
+import { getAllCategories } from "../models/catalogModel.js";
 
 const selectService = (req, res) => {
     const user_id = req.session.user.id;
@@ -32,10 +33,12 @@ const selectTime = (req, res) => {
 
 const showDatasPage = async (req, res) => {
     try {
+        const categories = await getAllCategories();
         const bikes = await getBikeByUserId(req.session.user.id);
 
         return res.render("appointmentData", {
             error: null,
+            categories,
             bikes
         });
     } catch (error) {
@@ -49,6 +52,7 @@ const upDatasAndSave = async (req, res) => {
         req.session.appointment = {
             ...req.session.appointment,
             bike_id: req.body.bike_id || null,
+            catalog_id: req.body.catalog_id,
             note: req.body.note
         };
 
@@ -61,41 +65,29 @@ const upDatasAndSave = async (req, res) => {
 
             req.session.appointment = {
                 ...req.session.appointment,
-                bike_brand: bike.brand,
-                bike_model: bike.model,
-                bike_type: bike.type,
-                bike_category: bike.category,
-                bike_stroke: bike.stroke,
-                bike_cylinder: bike.cylinder,
-                bike_generation: bike.generation
-            };
-        } else {
-            req.session.appointment = {
-                ...req.session.appointment,
-                bike_brand: req.body.bike_brand,
-                bike_model: req.body.bike_model,
-                bike_type: req.body.bike_type,
-                bike_category: req.body.bike_category,
-                bike_stroke: req.body.bike_stroke,
-                bike_cylinder: req.body.bike_cylinder,
-                bike_generation: req.body.bike_generation
+                catalog_id: bike.catalog_id
             };
         }
     
         const appointmentDatas = req.session.appointment;
+
+        if(!appointmentDatas.catalog_id) {
+            const categories = await getAllCategories();
+            const bikes = await getBikeByUserId(req.session.user.id);
+
+            return res.status(400).render("appointmentData", {
+                error: "Motor adatait kötelező megadni.",
+                categories,
+                bikes
+            });
+        }
 
         const appointment = await createAppointment({
             user_id: appointmentDatas.user_id,
             bike_id: appointmentDatas.bike_id,
             appointment_date: appointmentDatas.appointment_date,
             appointment_time: appointmentDatas.appointment_time,
-            bike_brand: appointmentDatas.bike_brand,
-            bike_model: appointmentDatas.bike_model,
-            bike_type: appointmentDatas.bike_type,
-            bike_category: appointmentDatas.bike_category,
-            bike_stroke: appointmentDatas.bike_stroke,
-            bike_cylinder: appointmentDatas.bike_cylinder,
-            bike_generation: appointmentDatas.bike_generation,
+            catalog_id : appointmentDatas.catalog_id,
             note: appointmentDatas.note,
             status: "Feldolgozás alatt"
         });
@@ -106,7 +98,6 @@ const upDatasAndSave = async (req, res) => {
 
         delete req.session.appointment;
 
-        console.log("sikeres foglalás!");
         return res.redirect("/auth/profile");
     } catch(error) {
         console.log("hiba: ", error);

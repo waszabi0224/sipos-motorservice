@@ -7,6 +7,7 @@ import { fileURLToPath } from "url";
 import session from "express-session";
 import methodOverride from "method-override";
 import { getActiveServices, getAllServices } from "./app/models/serviceModel.js";
+import { getAllCategories } from "./app/models/catalogModel.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -45,6 +46,15 @@ app.use(async (req, res, next) => {
 app.use(async (req, res, next) => {
     try {
         res.locals.active_services = await getActiveServices();
+        next();
+    } catch(error) {
+        next(error);
+    }
+});
+
+app.use(async (req, res, next) => {
+    try {
+        res.locals.categories = await getAllCategories();
         next();
     } catch(error) {
         next(error);
