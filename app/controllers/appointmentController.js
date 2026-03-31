@@ -1,6 +1,6 @@
 import { createAppointment } from "../models/appointmentModel.js";
 import { createAppointmentService } from "../models/appointmentServiceModel.js";
-import { getBikeById } from "../models/bikeModel.js";
+import { getBikeById, getBikeByUserId } from "../models/bikeModel.js";
 
 const selectService = (req, res) => {
     const user_id = req.session.user.id;
@@ -30,10 +30,18 @@ const selectTime = (req, res) => {
     return res.redirect("/auth/appointment/data");
 }
 
-const showDatasPage = (req, res) => {
-    res.render("appointmentData", {
-        error: null
-    });
+const showDatasPage = async (req, res) => {
+    try {
+        const bikes = await getBikeByUserId(req.session.user.id);
+
+        return res.render("appointmentData", {
+            error: null,
+            bikes
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send("Hiba történt az oldal betöltése során.");
+    }
 }
 
 const upDatasAndSave = async (req, res) => {

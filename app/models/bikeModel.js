@@ -18,6 +18,18 @@ async function getBikeById(id) {
     return result.rows[0];
 }
 
+async function getServiceByBikeId(bikeId) {
+    const sql = `SELECT * FROM services
+                 JOIN appointment_services aps ON services.id = aps.service_id
+                 JOIN appointments a ON aps.appointment_id = a.id
+                 JOIN bikes b ON a.bike_id = b.id
+                 WHERE a.bike_id = $1
+                 GROUP BY services.id, aps.id, a.id, b.id
+                 ORDER BY a.appointment_date, a.appointment_time`;
+    const result = await db.query(sql, [bikeId]);
+    return result.rows;
+}
+
 async function updateBike(id, updatedBike) {
     const sql = "UPDATE bikes SET brand=$1, model=$2, type=$3, category=$4, stroke=$5, cylinder=$6, generation=$7, updated_at=CURRENT_TIMESTAMP WHERE id=$8 RETURNING *";
     const result = await db.query(sql, [updatedBike.brand, updatedBike.model, updatedBike.type, updatedBike.category, updatedBike.stroke, updatedBike.cylinder, updatedBike.generation, id]);
@@ -34,6 +46,7 @@ export {
     createBike,
     getBikeByUserId,
     getBikeById,
+    getServiceByBikeId,
     updateBike,
     deleteBike
 };

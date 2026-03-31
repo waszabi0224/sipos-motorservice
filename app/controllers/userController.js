@@ -1,4 +1,7 @@
+import { getBikeByUserId, getServiceByBikeId } from "../models/bikeModel.js";
 import { findUserByEmail, createUser } from "../models/userModel.js";
+import { getAppointmentByUserId } from "../models/appointmentModel.js";
+
 import bcrypt from "bcrypt";
 
 const showRegisterPage = (req, res) => {
@@ -107,14 +110,29 @@ const logoutUser = (req, res) => {
     res.redirect("/");
 };
 
-const showProfilePage = (req, res) => {
+const showProfilePage = async (req, res) => {
     if(!req.session.user) {
-        return res.redirect("/auth/login");
+         return res.redirect("/auth/login");
+    } else {
+        try {
+            const appointments = await getAppointmentByUserId(req.session.user.id);
+            const bikes = await getBikeByUserId(req.session.user.id);
+
+            for(const bike of bikes) {
+                bike.bike_services = await getServiceByBikeId(bike.id);
+            }
+
+            return res.render("profile", {
+                error: null,
+                user: req.session.user,
+                appointments,
+                bikes
+            }); 
+        } catch(error) {
+            console.error(error);
+            return res.status(500).send("Hiba történt a profil oldal betöltése során.");
+        }
     }
-    res.render("profile", {
-        user: req.session.user,
-        error: null
-    });
 }
 
 export {

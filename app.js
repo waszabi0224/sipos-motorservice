@@ -7,8 +7,6 @@ import { fileURLToPath } from "url";
 import session from "express-session";
 import methodOverride from "method-override";
 import { getActiveServices, getAllServices } from "./app/models/serviceModel.js";
-import { getAppointmentByUserId } from "./app/models/appointmentModel.js";
-import { getBikeByUserId } from "./app/models/bikeModel.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -47,32 +45,6 @@ app.use(async (req, res, next) => {
 app.use(async (req, res, next) => {
     try {
         res.locals.active_services = await getActiveServices();
-        next();
-    } catch(error) {
-        next(error);
-    }
-});
-
-app.use(async (req, res, next) => {
-    try {
-        if(req.session.user) {
-            res.locals.appointments = await getAppointmentByUserId(req.session.user.id);
-        } else {
-            res.locals.appointments = [];
-        }
-        next();
-    } catch(error) {
-        next(error);
-    }
-});
-
-app.use(async (req, res, next) => {
-    try {
-        if(req.session.user) {
-            res.locals.bikes = await getBikeByUserId(req.session.user.id);
-        } else {
-            res.locals.bikes = [];
-        }
         next();
     } catch(error) {
         next(error);

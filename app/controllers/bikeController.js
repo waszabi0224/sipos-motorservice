@@ -1,4 +1,4 @@
-import { createBike, getBikeByUserId, updateBike, deleteBike } from "../models/bikeModel.js";
+import { createBike, getServiceByBikeId, updateBike, deleteBike } from "../models/bikeModel.js";
 
 const createABike = async (req, res, next) => {
     try {
@@ -16,20 +16,6 @@ const createABike = async (req, res, next) => {
         return res.redirect("/auth/profile");
     } catch(error) {
         return res.status(500).send("Hiba történt a motor létrehozása során!");
-    }
-}
-
-const getAllBikes = async (req, res, next) => {
-    try {
-        const { id } = req.params;
-
-        const bikes = await getBikeByUserId(id);
-
-        return res.render("profile", {
-            bikes
-        });
-    } catch(error) {
-        return res.status(500).send("Hiba történt a motorok lekérése során!");
     }
 }
 
@@ -66,7 +52,6 @@ const deleteABike = async (req, res, next) => {
 
 export {
     createABike,
-    getAllBikes,
     updateABike,
     deleteABike
 };

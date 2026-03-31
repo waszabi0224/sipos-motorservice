@@ -85,8 +85,12 @@
                 </thead>
                 <tbody>
                     <% bikes.forEach(bike => { %>
-                        <tr>
-                            <td><%= bike.brand %></td>
+                        <tr class="bike-row">
+                            <td>
+                                <button type="button" class="bike-toggle-details" data-bike-id="<%= bike.id %>">
+                                    <%= bike.brand %>
+                                </button>
+                            </td>
                             <td><%= bike.model %></td>
                             <td><%= bike.type %></td>
                             <td><%= bike.category %></td>
@@ -94,11 +98,40 @@
                             <td><%= bike.cylinder %></td>
                             <td><%= bike.generation %></td>
                             <td><%= new Date(bike.created_at).toLocaleString() %></td>
-                            <td><button type="button" class="editBikeBtn" data-id="<%=bike.id %>" data-brand="<%=bike.brand %>" data-model="<%=bike.model %>" data-type="<%=bike.type %>" data-category="<%=bike.category %>" data-stroke="<%=bike.stroke %>" data-cylinder="<%=bike.cylinder %>" data-generation="<%=bike.generation %>">Módosítás</button></td>
+                            <td><button type="button" class="editBikeBtn" data-id="<%= bike.id %>" data-brand="<%= bike.brand %>" data-model="<%= bike.model %>" data-type="<%= bike.type %>" data-category="<%= bike.category %>" data-stroke="<%= bike.stroke %>" data-cylinder="<%= bike.cylinder %>" data-generation="<%= bike.generation %>">Módosítás</button></td>
                             <td>
                                 <form action="/auth/bikes/<%=bike.id%>?_method=DELETE" method="POST">
                                     <button type="submit">Törlés</button>
                                 </form>
+                            </td>
+                        </tr>
+
+                        <tr id="bike-details-<%= bike.id %>" style="display: none;">
+                            <td colspan="5">
+                                <% if(bike.bike_services && bike.bike_services.length > 0) { %>
+                                    <table border="1" cellpadding="8">
+                                        <thead>
+                                            <tr>
+                                                <th>Név</th>
+                                                <th>Leírás</th>
+                                                <th>Ár</th>
+                                                <th>Időtartam</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% bike.bike_services.forEach(bike_service => { %>
+                                                <tr>
+                                                    <td><%= bike_service.name %></td>
+                                                    <td><%= bike_service.description %></td>
+                                                    <td><%= bike_service.price %></td>
+                                                    <td><%= bike_service.duration %></td>
+                                                </tr>
+                                            <% }) %>
+                                        </tbody>
+                                    </table>
+                                <% } else { %>
+                                    <p>Nincs szervíz ehhez a motorhoz.</p>
+                                <% } %>
                             </td>
                         </tr>
                     <% }); %>
@@ -109,6 +142,7 @@
         <button type="button" id="openModalBtn">Új motor</button>
 
         <script src="/js/bikeModal.js"></script>
+        <script src="/js/bikeServices.js"></script>
 
     <% } %>
 </body>
